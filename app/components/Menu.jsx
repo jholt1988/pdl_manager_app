@@ -1,23 +1,58 @@
+'use client'
 import React from 'react';
 import Menu from '@mui/material/Menu'
-import { MenuItem, MenuList } from '@mui/material';
+import { ListItemIcon, ListItemText, MenuItem, MenuList } from '@mui/material';
 import Link from 'next/link';
-import {GroupOutlined} from '@mui/icons-material/GroupOutlined'
+import GroupOutlined from '@mui/icons-material/GroupOutlined'
+import  ApartmentOutlined  from '@mui/icons-material/ApartmentOutlined';
+import  ArticleIconOutlined from '@mui/icons-material/Article';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import HomeRepairServiceOutlinedIcon from '@mui/icons-material/HomeRepairServiceOutlined';
+import styles from '@/app/styles/layout.module.css'
+import { usePathname } from 'next/navigation';
 
-export default function Menu (props) {
+export default function SideMenu (props) {
+    
+    const pathname = usePathname()
     return (
         <>
-            <Menu id="side_menu" anchorEl={} keepMounted open={Boolean()} onClose={}>
+            <Menu id="side_menu" anchorEl={props.anchorEl} keepMounted open={props.open} onClose={props.onClose}>
                 <MenuList>
-                    <MenuItem>
-                    <Link href='./tenants'>
-                    <GroupOutlined />
+                    <MenuItem key='tenants'>
+                    <Link  onClick={props.onClose}className={`${styles.link} ${pathname === "/tenants" ? styles.active : ""}`} href='/tenants'>
+                  <ListItemIcon><GroupOutlined /></ListItemIcon>
+                  <ListItemText>Tenants</ListItemText>
                     </Link>
                     </MenuItem>
+                    <MenuItem key='properties'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/properties" ? styles.active : ""}`} href='/properties'>
+                    <ListItemIcon><ApartmentOutlined /></ListItemIcon>
+                    <ListItemText>Properties</ListItemText>
+                    </Link>
+                    </MenuItem>
+                    <MenuItem key='leases'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/leases" ? styles.active : ""}`} href='/properties'>
+                    <ListItemIcon><ArticleIconOutlined /></ListItemIcon>
+                    <ListItemText>Leases</ListItemText>
+                    </Link>
+                    </MenuItem>
+                    <MenuItem key='work_orders'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/workorders" ? styles.active : ""}`} href='/properties'>
+                    <ListItemIcon><HomeRepairServiceOutlinedIcon /></ListItemIcon>
+                    <ListItemText>Repair/Maintenance Work</ListItemText>
+                    </Link>
+                    </MenuItem>
+                    <MenuItem key='expense'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/expense" ? styles.active : ""}`} href='/properties'>
+                    <ListItemIcon><AccountBalanceOutlinedIcon /></ListItemIcon>
+                    <ListItemText>Expense/Payment</ListItemText>
+                    </Link>
+                    </MenuItem>
+                    
                 </MenuList>
               
             </Menu>
-            <h1> { props.title } </h1>
+            
         </>
     )
 }
