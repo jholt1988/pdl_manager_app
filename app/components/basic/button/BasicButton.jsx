@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 export default function BasicButton (props) {
     return (
         <>
-            <Button className={props.className}  variant="text" color="primary" type={props.type} onClick={props.handleClick}>
+            <Button className={props.className}  variant="text" color="primary" type={props.type} onSubmit={() => props.onSubmit} >
               
             </Button>
         </>

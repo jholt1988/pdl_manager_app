@@ -6,6 +6,7 @@
 import React, {useState} from 'react';
 import { Formik, Form, Field, useFormik } from 'formik'; // Formik for form state management
 import * as Yup from 'yup'; // Yup for schema validation
+import { Button } from '@mui/material';
 import { TextField } from '@mui/material'
 import  TextInput from '../input/TextInput' // Custom TextInput component
 import BasicButton from '../button/BasicButton'; // Custom BasicButton component
@@ -45,7 +46,7 @@ const ReusableForm = ({ initialValues, validationSchema, onSubmit, fields }) => 
                 helperText={formik.touched[field.name] && formik.errors[field.name]}
               />
             </div>
-          ))}
+          ))}, {...props.children}
           <BasicButton type="submit" color="primary" >Submit</BasicButton> // Submit button for the form
         </form>
       )}

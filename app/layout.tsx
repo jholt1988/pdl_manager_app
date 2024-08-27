@@ -1,3 +1,5 @@
+'use client'
+import React from "react";
 import Sidedrawer from "@/app/components/basic/sidedrawer";
 import SideMenu from '@/app/components/menu';
 import { CopyrightOutlined } from "@mui/icons-material";
@@ -5,17 +7,13 @@ import { Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Image from "next/image";
-import type { ReactNode } from "react";
+
 import { StoreProvider } from "./StoreProvider";
 import { Nav } from "./components/Nav";
 import "./styles/globals.css";
 import styles from "./styles/layout.module.css";
 
-interface Props {
-  readonly children: ReactNode;
-}
-
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({ children }) {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
     <StoreProvider>
@@ -27,11 +25,11 @@ export default function RootLayout({ children }: Props) {
 
             <header className={styles.header}>
               <Image
-                src="/logo.png"
+                src="/logo3.png"
                 className={styles.logo}
                 alt="logo"
-                width={80}
-                height={80}
+                width={215}
+                height={215}
                 priority
               />
             </header>

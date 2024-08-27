@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-
+import { Button } from '@mui/material';
 import ReusableForm from '../ReusableForm'; // Adjust the import path as needed
 import * as Yup from 'yup';
 
@@ -12,7 +12,7 @@ jest.mock('../../input/TextInput', () => (props) => <input {...props} />);
 jest.mock('../../button/BasicButton', () => (props) => <button {...props}>{props.children}</button>);
 
 describe('ReusableForm', () => {
-  const mockOnSubmit = jest.fn();
+  const mockOnSubmit = jest.fn((values => console.log(values)));
   const user = userEvent.setup()
   const initialValues = {
     name: '',
@@ -54,21 +54,22 @@ describe('ReusableForm', () => {
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
-  test('submits the form with correct data',   () => {
-    fireEvent.change(screen.getByRole('textbox', {name:'Name'}), { target: { value: 'John Doe' } });
-    fireEvent.change(screen.getByRole('textbox', {name:'Email'}), { target: { value: 'john@example.com' } });
-   user.click(screen.getByText('Submit'));
+  test('submits the form with correct data', async   () => {
+   await fireEvent.change(screen.getByRole('textbox', {name:'Name'}), { target: { value: 'John Doe' } });
+    await fireEvent.change(screen.getByRole('textbox', {name:'Email'}), { target: { value: 'john@example.com' } });
+    await user.click(screen.getByText('Submit'))
     
     
-   
   
-    expect(mockOnSubmit).toHaveBeenCalledWith(
+  
+   await expect(mockOnSubmit).toHaveBeenCalledWith(
     
      { email: 'john@example.com', name:'John Doe'},
-     expect.anything()
+      expect.anything()
       
      
     );
-  
+   
+
 })
 })

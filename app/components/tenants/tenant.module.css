@@ -1,0 +1,24 @@
+.tenant-info {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+  }
+  
+  .tenant-info h2, .tenant-info h3 {
+    margin-top: 0;
+  }
+  
+  .tenant-info p {
+    margin: 8px 0;
+  }
+  
+  .tenant-info ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .tenant-info li {
+    padding: 4px 0;
+  }
+  
