@@ -8,6 +8,7 @@ import { Formik, Form, Field, useFormik } from 'formik'; // Formik for form stat
 import * as Yup from 'yup'; // Yup for schema validation
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material'
+import {DatePicker} from '@mui/x-date-pickers';
 import  TextInput from '../input/TextInput' // Custom TextInput component
 import BasicButton from '../button/BasicButton'; // Custom BasicButton component
 
@@ -18,7 +19,7 @@ import BasicButton from '../button/BasicButton'; // Custom BasicButton component
 // - validationSchema: Yup schema for form validation
 // - onSubmit: Function to handle form submission
 // - fields: Array of field objects containing information about each form field
-const ReusableForm = ({ initialValues, validationSchema, onSubmit, fields }) => {
+const ReusableForm = ({ initialValues, validationSchema, onSubmit, fields, children }) => {
   
     const formik = useFormik({
       initialValues:initialValues,
@@ -32,7 +33,21 @@ const ReusableForm = ({ initialValues, validationSchema, onSubmit, fields }) => 
         <form id='test' onSubmit={formik.handleSubmit}>
           {fields.map((field) => (
             <div key={field.name} style={{ marginBottom: '16px' }}>
-              <TextField
+              { field.type =="date" ?(
+                 <DatePicker
+                 id={field.name} // Uses custom TextInput component for each field
+                 name={field.name} // Sets the name for the field
+                 label={field.label} // Sets the label for the field
+                 type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
+                 fullwidth // Makes the input full width
+                 value= {formik.values[field.name]}
+                 onChange={formik.handleChange}
+                 onBlur={formik.handleBlur}
+                 error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
+                 helperText={formik.touched[field.name] && formik.errors[field.name]}
+              /> 
+              ):
+             ( <TextField
             
                id={field.name} // Uses custom TextInput component for each field
                 name={field.name} // Sets the name for the field
@@ -44,10 +59,11 @@ const ReusableForm = ({ initialValues, validationSchema, onSubmit, fields }) => 
                 onBlur={formik.handleBlur}
                 error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
                 helperText={formik.touched[field.name] && formik.errors[field.name]}
-              />
+              />)
+             }
             </div>
-          ))}, {...props.children}
-          <BasicButton type="submit" color="primary" >Submit</BasicButton> // Submit button for the form
+          ))}
+          <BasicButton type="submit" color="primary" >Submit</BasicButton> 
         </form>
       )}
     

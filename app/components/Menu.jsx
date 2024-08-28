@@ -25,8 +25,7 @@ export default function SideMenu (props) {
                     </Link>
                     </MenuItem>
                     <MenuItem key='properties'>
-                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/properties" ? styles.active : ""}`} href='/properties'>
-                    <ListItemIcon><ApartmentOutlined /></ListItemIcon>
+                                        <ListItemIcon><ApartmentOutlined /></ListItemIcon>
                     <ListItemText>Properties</ListItemText>
                     </Link>
                     </MenuItem>

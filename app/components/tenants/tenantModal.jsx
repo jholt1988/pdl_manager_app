@@ -16,6 +16,7 @@ function TenantInfo(props) {
     <div>
     <Modal open={props.open} onClose={props.onClose} title='Tenant Information' description={`Tenant Information for ${tenant.name}`}>
     <Box>
+      
     <div className="tenant-info">
       <h2>Tenant Information</h2>
       <p><strong>Name:</strong> {tenant.name}</p>
@@ -44,6 +45,7 @@ function TenantInfo(props) {
       </ul>
     </div>
     </Box>
+    
     </Modal>
     </div>
   );

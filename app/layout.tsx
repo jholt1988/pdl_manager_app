@@ -22,19 +22,19 @@ export default function RootLayout({ children }) {
           <section className={styles.container}>
             <Sidedrawer/>
 
-
+            <main className={styles.main}>
             <header className={styles.header}>
               <Image
-                src="/logo3.png"
+                src="/Asset 4.png"
                 className={styles.logo}
                 alt="logo"
-                width={215}
-                height={215}
+                width={180}
+                height={180}
                 priority
               />
-            </header>
+            </header>,
 
-            <main className={styles.main}>{children}</main>
+            {children}</main>
 
             <footer className={styles.footer}>
               <span>
