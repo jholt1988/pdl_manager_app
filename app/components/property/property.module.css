@@ -1,0 +1,29 @@
+.propertyContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    
+  }
+
+
+  .propertyForm{
+    padding: 5px ;
+    display: flex;
+    flex-direction: column;
+   
+  }
+
+  .propertyForm h1{
+    align-self: center;
+  }
+
+  .propertyForm div{
+    align-self: center;
+  }
+
+  .propertyInfo div{
+    justify-items: center;
+    align-items: center;
+  }
+  

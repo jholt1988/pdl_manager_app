@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Paper, Box } from "@mui/material";
+import styles from '@/app/components/tenants/tenant.module.css'
 
 export default function TenantInfo(props) {
     const tenant = useSelector((state) => state.tenants.tenantList[props.tenantId])
@@ -10,9 +11,9 @@ export default function TenantInfo(props) {
       }
   return (
     <>
-      <Box hidden={props.hidden}>
+      <Box className={props.className} hidden={props.hidden}>
         <Paper>
-          <div className="tenant-info">
+          <div>
             <h2>Tenant Information</h2>
             <p>
               <strong>Name:</strong> {tenant.name}

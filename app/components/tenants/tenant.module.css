@@ -1,24 +1,52 @@
-.tenant-info {
+.tenantContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  
+}
+
+.tenantInfo {
     border: 1px solid #ccc;
     padding: 16px;
     border-radius: 8px;
     margin: 16px 0;
   }
   
-  .tenant-info h2, .tenant-info h3 {
+  .tenantInfo h2, .tenantInfo h3 {
     margin-top: 0;
   }
   
-  .tenant-info p {
+  .tenantInfo p {
     margin: 8px 0;
   }
   
-  .tenant-info ul {
-    list-style-type: none;
+  .tenantInfo ul {
+    list-style-type:none;
     padding: 0;
   }
   
-  .tenant-info li {
+  .tenantInfo li {
     padding: 4px 0;
+  }
+
+  .tenantForm{
+    padding: 5px ;
+    display: flex;
+    flex-direction: column;
+   
+  }
+
+  .tenantForm h1{
+    align-self: center;
+  }
+
+  .tenantForm div{
+    align-self: center;
+  }
+
+  .tenantInfo div{
+    justify-items: center;
+    align-items: center;
   }
   

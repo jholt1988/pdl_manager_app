@@ -1,5 +1,5 @@
 import React from "react";
-import ReusableDataGrid from "../basic/datagrid/ReusableDataGrid";
+import ReusableDataGrid from "../../basic/datagrid/ReusableDataGrid";
 
 export default function TenantList (props){
     const columns = ['Name', 'Phone', 'Email', 'Property', 'Lease Start', 'Lease End','Monthy Rent', 'Balance' ]

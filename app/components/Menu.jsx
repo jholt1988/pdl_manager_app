@@ -18,14 +18,15 @@ export default function SideMenu (props) {
         <>
             <Menu id="side_menu" anchorEl={props.anchorEl} keepMounted open={props.open} onClose={props.onClose}>
                 <MenuList>
-                    <MenuItem key='tenants'>
-                    <Link  onClick={props.onClose}className={`${styles.link} ${pathname === "/tenants" ? styles.active : ""}`} href='/tenants'>
+                    <MenuItem key='tenant'>
+                    <Link  onClick={props.onClose} className={`${styles.link} ${pathname === "/tenant" ? styles.active : ""}`} href='/tenant'>
                   <ListItemIcon><GroupOutlined /></ListItemIcon>
                   <ListItemText>Tenants</ListItemText>
                     </Link>
                     </MenuItem>
-                    <MenuItem key='properties'>
-                                        <ListItemIcon><ApartmentOutlined /></ListItemIcon>
+                    <MenuItem key='property'>
+                    <Link  className={`${styles.link} ${pathname === "/property" ? styles.active : ""}`} href='/property'>
+                     <ListItemIcon><ApartmentOutlined /></ListItemIcon>
                     <ListItemText>Properties</ListItemText>
                     </Link>
                     </MenuItem>

@@ -1,13 +1,15 @@
 import React from 'react';
-import ReusableForm from '../basic/form/ReusableForm';
-import moment from 'moment';
-import styles from '@/app/components/tenants/tenant.module.css'
+import ReusableForm from '../../components/basic/form/ReusableForm';
+import { useSelector } from 'react-redux';
+import  styles from '@/app/components/tenants/tenant.module.css'
 
-export default function AddTenantForm (props) {
-     const fields = [
+
+export default function EditTenantForm (props) {
+    const tenant = useSelector((state) => state.tenants.selectedTenant)
+    const fields = [
         {
         id:"name", 
-        name: 'Name', 
+        name: 'name', 
         type: 'text',
         value: "", 
         label:'Name'}, 
@@ -27,32 +29,32 @@ export default function AddTenantForm (props) {
         },
         {
                 id:"unit", 
-                name: 'Unit', 
+                name: 'unit', 
                 type: 'text',
                 value: "", 
                 label: "Unit"
             },{
                 id:"balance", 
-                name: 'balanace', 
+                name: 'ledgerBalanace', 
                 type: 'text',
                 label: "Ledger Balance", 
                 value: "", 
             }, 
             {
                 id:"leaseStart", 
-                name: 'leaseStart', 
+                name: 'leaseStartDate', 
                 type: 'date',
                 value: '',
                 className:"date_time",
-             
                 label: "Lease Start Date"
             },
             {
                 id:"leaseEnd", 
-                name: 'leaseEnd', 
+                name: 'leaseEndDate', 
                 type: 'date',
                 value:'',
                 className:"date_time",
+                
                 label: "Lease End Date"
             },
             {
@@ -68,29 +70,32 @@ export default function AddTenantForm (props) {
                 type: 'text',
                 value: "",
                 label: "Driver License Number"
-        },
-                
+        }, 
+        {
+            id:'ledger', 
+            name:'ledger', 
+            type:'text', 
+            value:"", 
+            label:'Ledger'
+        }
     ]
-          const initalValues = {
-            name:'', 
-            email:'', 
-            phone: '',
-            employer:'', 
-            leaseStart: moment.utc(),
-            leaseEnd: moment.utc(), 
-            unit:"", 
-            driversLicense:""
-          }
 
-              
-     
+console.log(tenant)
+const initialValues={}
+
+for(const [key, value] of Object.entries(tenant)){
+    initialValues[key] = value
+    console.log(key, value)
+    
+}
+
+console.log(initialValues)
+
 
     return (
-        <div  className={styles.tenantForm} hidden={props.hidden}>  
-            
-            <h1 >Add New Tenant </h1>
-            <ReusableForm  className={styles.tenantForm}  initialValues={initalValues} fields={fields}/>
-
-        </div>
+        <>
+        <h2>Edit Tenant Info</h2>
+            <ReusableForm fields={fields} initialValues={initialValues} className={styles.tenantForm} />
+        </>
     )
 }
