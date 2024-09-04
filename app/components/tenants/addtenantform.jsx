@@ -1,5 +1,5 @@
 import React from 'react';
-import ReusableForm from '../basic/form/ReusableForm';
+import ReusableForm from '@/app/components/basic/form/ReusableForm';
 import moment from 'moment';
 import styles from '@/app/components/tenants/tenant.module.css'
 

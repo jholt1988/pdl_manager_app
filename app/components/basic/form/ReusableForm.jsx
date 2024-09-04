@@ -22,7 +22,6 @@ import { initialValues } from '../../tenants/edittenantform';// Custom BasicButt
 // - onSubmit: Function to handle form submission
 // - fields: Array of field objects containing information about each form field
 const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
-  
   const fieldFactory = (field, props) =>{
     switch(field.className) {
       case "date_time":
@@ -32,12 +31,11 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           label={field.label} // Sets the label for the field
           type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
-          defaultValue= {props.initialValues[field.name] || ''}
           value={moment.utc(props.values[field.name])}  
           onChange={props.handleChange}
           onBlur={props.handleBlur}
           error={props.touched[field.name] && Boolean(props.errors[field.name])}
-          helperText={props.touched[field.name] && errors[field.name]}
+          helperText={props.touched[field.name] && props.errors[field.name]}
           slotProps={{
            inputLabel:{
              shrink:true
@@ -54,10 +52,11 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
             value={props.values[field.name]}  
             onChange={props.handleChange}
             onBlur={props.handleBlur}
+            name={field.name}
             error={props.touched[field.name] && Boolean(props.errors[field.name])}
-            helperText={props.touched[field.name] && errors[field.name]}>
+            helperText={props.touched[field.name] && props.errors[field.name]}>
               {field.options.map(option => (
-                <MenuItem value={option}>{`${option}`}</MenuItem>
+                <MenuItem id={option} key={option} value={option}>{`${option}`}</MenuItem>
               ))}
             </Select>
             </>
@@ -70,7 +69,6 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           label={field.label } // Sets the label for the field
           type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
-          defaultValue={props.initialValues[field.name] || ''}
           value={props.values[field.name]}
           onChange={props.handleChange}
           onBlur={props.handleBlur}

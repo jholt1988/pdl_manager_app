@@ -45,11 +45,12 @@ export default function AddPropertyForm (props) {
     ]
 
     const initialValues = {
-        property_name: '', 
-        address:'', 
-        square_footage:'', 
-        units:'', 
-        status:''
+        property_name: props.initialValues.property_name ||'', 
+        address:props.initialValues.address || '', 
+        property_type: props.initialValues.property_type,
+        square_footage:props.initialValues.square_footage ||'', 
+        units: props.initialValues.units || '', 
+        status: props.initialValues || ''
     }
     return (
         <>
