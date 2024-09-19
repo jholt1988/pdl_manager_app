@@ -19,7 +19,7 @@ export default function EditPropertyForm(props){
 
     const PropertySelect = () => (
        <>
-       <Select onChange={handleChange}>
+       <Select onChange={handleChange} value={propertyId}>
         {selectPropertiesList.map((property) => (
             <MenuItem key={property.property_id}  value={property.property_id}>{property.property_name}</MenuItem>
         ))}

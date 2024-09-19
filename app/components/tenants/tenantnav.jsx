@@ -10,19 +10,23 @@ export default function Tenantnav (props) {
     const links = [
         {
         href: '/tenant', 
-        label:'Tenant Dashboard'
+        label:'Tenant Dashboard', 
+        key:'tenant_base'
          }, 
          {
            href:'/tenant/tenantinfo' ,
-           label: 'Tenant Info' 
+           label: 'Tenant Info' ,
+           key:'tenant_info'
          }, 
          {
             href:'/tenant/addTenant', 
-            label: 'Add Tenant'
+            label: 'Add Tenant', 
+            key:'tenant_add'
          }, 
          {
             href:'/tenant/edittenant', 
-            label:'Edit Tenant'
+            label:'Edit Tenant',
+            key: 'tenant_edit'
          }
 
 ]

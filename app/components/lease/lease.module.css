@@ -1,0 +1,29 @@
+.leaseContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    
+  }
+
+
+  .leaseForm{
+    padding: 5px ;
+    display: flex;
+    flex-direction: column;
+   
+  }
+
+  .leaseForm h1{
+    align-self: center;
+  }
+
+  .leaseForm div{
+    align-self: center;
+  }
+
+  .leaseInfo div{
+    justify-items: center;
+    align-items: center;
+  }
+  

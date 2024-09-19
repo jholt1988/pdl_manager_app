@@ -1,95 +1,63 @@
-import React from 'react';
+import React,{useState} from 'react';
+import {useDispatch} from 'react-redux'
 import ReusableForm from '@/app/components/basic/form/ReusableForm';
-import moment from 'moment';
-import styles from '@/app/components/tenants/tenant.module.css'
+import {addTenant} from '../../../lib/features/tenant/tenantSlice'
+import styles from '@/app/components/tenants/tenant.module.css';
 
 export default function AddTenantForm (props) {
+    const dispatch = useDispatch()
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState(" ")
+    const [phone, setPhone] = useState('')
+
      const fields = [
         {
         id:"name", 
         name: 'Name', 
         type: 'text',
-        value: "", 
-        label:'Name'}, 
+        label:'Name', 
+       onChange:  (e) => setName(e.target.value)
+    }, 
         {
             id:"email", 
             name: 'email', 
-            type: 'Email',
-            value: "", 
+            type: 'text',
             label:'Email', 
+            onChange: (e) => setEmail(e.target.value)
         }, 
         {
             id:"phone", 
             name: 'phone', 
-            type: 'tel',
+            type: 'text',
             label: "Phone Number",
-            value: "", 
+            onChange: (e) => setPhone(e.target.value)
         },
-        {
-                id:"unit", 
-                name: 'Unit', 
-                type: 'text',
-                value: "", 
-                label: "Unit"
-            },{
-                id:"balance", 
-                name: 'balanace', 
-                type: 'text',
-                label: "Ledger Balance", 
-                value: "", 
-            }, 
-            {
-                id:"leaseStart", 
-                name: 'leaseStart', 
-                type: 'date',
-                value: '',
-                className:"date_time",
-             
-                label: "Lease Start Date"
-            },
-            {
-                id:"leaseEnd", 
-                name: 'leaseEnd', 
-                type: 'date',
-                value:'',
-                className:"date_time",
-                label: "Lease End Date"
-            },
-            {
-                id:"employer", 
-                name: 'employer', 
-                type: 'text',
-                value: "",
-                label: "Employer"
-            },
-            {
-                id:"driverLicense", 
-                name: 'driversLicense', 
-                type: 'text',
-                value: "",
-                label: "Driver License Number"
-        },
+       
                 
     ]
           const initalValues = {
-            name:'', 
-            email:'', 
-            phone: '',
-            employer:'', 
-            leaseStart: moment.utc(),
-            leaseEnd: moment.utc(), 
-            unit:"", 
-            driversLicense:""
+            name:name, 
+            email:email , 
+            phone: phone,
+            
           }
 
-              
+    const handleSubmit =  (e) => {
+        e.preventDefault();
+        dispatch(addTenant({name:name, email:email, phone:phone}))
+       setEmail('')
+        setName('')
+        setPhone('')
+        
+
+    }
      
 
     return (
-        <div  className={styles.tenantForm} hidden={props.hidden}>  
+        <div  className={styles.tenantForm} >  
             
             <h1 >Add New Tenant </h1>
-            <ReusableForm  className={styles.tenantForm}  initialValues={initalValues} fields={fields}/>
+            <ReusableForm handleSubmit={handleSubmit} className={styles.tenantForm}  initialValues={initalValues} fields={fields}/>
 
         </div>
     )

@@ -1,25 +1,26 @@
 'use client'
 import React,{useState} from 'react';
+import TenantList from '@/app/components/tenants/tenantsList/TenantList';
 import TenantDashboard from '../components/tenants/tenantdashboard';
+import AddTenantForm from '../components/tenants/addtenantform';
 import { Box } from '@mui/material';
-import styles from './page.module.css'
-import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
 
-const Page = (props) => {
-    const pathname = usePathname()
-    const {params} = props
-    const selectedTenant = useSelector(state => state.tenants.selectedTenant)
+
+const TenantPage = (props) => {
+    
   
 
     
     return (
         <Box>
+            <h1>Manage Tenants</h1>
             <TenantDashboard />
+            <AddTenantForm />
+            <TenantList />
          </Box>
      
     )
 }
 
-export default Page
+export default TenantPage
             

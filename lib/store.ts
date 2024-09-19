@@ -4,10 +4,11 @@ import { counterSlice } from "./features/counter/counterSlice";
 import { quotesApiSlice } from "./features/quotes/quotesApiSlice";
 import propertiesReducer from './features/properties/propertiesSlice';
 import tenantReducer from './features/tenant/tenantSlice';
-import repairReducer from './features/repair_maint/repairSlice';
+import workOrderReducer from './features/repair_maint/repairSlice';
 import leaseReducer from '@/lib/features/leases/leaseSlice';
 import ledgerReducer from '@/lib/features/ledger/ledgerSlice'
 import expenseReducer from '@/lib/features/expenses/expenseSlice'
+import contractorReducer from '@/lib/features/contractors/contractorSlice';
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer;
@@ -21,10 +22,11 @@ export const makeStore = () => {
     reducer: {
       properties: propertiesReducer,
       tenants: tenantReducer,
-      repair: repairReducer,
+      workOrders: workOrderReducer,
       leases: leaseReducer,
       ledgers: ledgerReducer,
-      expenseReducer: expenseReducer,
+      expenses: expenseReducer,
+      contractors: contractorReducer, 
       counter: counterSlice.reducer,
       [quotesApiSlice.reducerPath]: quotesApiSlice.reducer,
     },

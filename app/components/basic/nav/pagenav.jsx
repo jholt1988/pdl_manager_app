@@ -10,12 +10,15 @@ export default function pageNav ({links}) {
     return (
         <>
         <Paper>
+            <ul>
             {links.map((link) => (
-              <Link className={`${styles.link} ${pathname ===`${link.href}` ? styles.active: "" }`} href={link.href}>{link.label}</Link>
+                <li key={link.key}>
+              <Link  className={`${styles.link} ${pathname ===`${link.href}` ? styles.active: "" }`} href={link.href}>{link.label}</Link>
+              </li>
             )
         )
     }
-    
+    </ul>
         </Paper>
 
         </>

@@ -8,9 +8,9 @@ import { DataGrid } from '@mui/x-data-grid';
 
 
 export default function ReusableDataGrid(props) {
-    const {rows, columns} = props
+    const {rows, columns, getRowId} = props
     return (
-      <Box sx={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: 400, width: 'fit-content' }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -21,6 +21,7 @@ export default function ReusableDataGrid(props) {
               },
             }
           }}
+          getRowId={getRowId}
           pageSizeOptions={[5, 10, 15, 20]}
           checkboxSelection
           disableRowSelectionOnClick

@@ -9,13 +9,13 @@ export default function AddPropertyForm (props) {
             label:'Property Name',
             type:'text'
         },
-        {   id:'address',
-            name:'address',
+        {   id:'property',
+            name:'property',
             value:"",
             label:'Address',
             type:'text'
         },
-        {   id:'sqft',
+        {   id:'square_footage',
             name:'square_footage',
             value:"",
             label:'SqFt',
@@ -24,11 +24,11 @@ export default function AddPropertyForm (props) {
         {   id:'property_type',
             name:'property_type',
             value:"",
-            label:'Property',
+            label:'Property Type',
             type:'text'
         },
         {   id:'units',
-            name:'Units',
+            name:'units',
             value:"",
             label:'Units',
             type:'text'
@@ -36,21 +36,21 @@ export default function AddPropertyForm (props) {
         {
             id:'status',
             name:'status',
-            value: "", 
+            value: " ", 
             className:'select',
             label: "Property Status",
-            options:['occupied', 'vacant', 'open unit', 'repair', 'move-out']
+            options:['Fully Occupied', 'Available', 'Under Maintenance']
         }
 
     ]
 
     const initialValues = {
-        property_name: props.initialValues.property_name ||'', 
-        address:props.initialValues.address || '', 
-        property_type: props.initialValues.property_type,
-        square_footage:props.initialValues.square_footage ||'', 
-        units: props.initialValues.units || '', 
-        status: props.initialValues || ''
+        property_name: '', 
+        address: '', 
+        property_type: '',
+        square_footage:'', 
+        units: '', 
+        status:  ''
     }
     return (
         <>

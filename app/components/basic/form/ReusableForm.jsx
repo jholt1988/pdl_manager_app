@@ -8,11 +8,12 @@ import { Formik, Form, Field, useFormik, withFormik } from 'formik'; // Formik f
 import * as Yup from 'yup'; // Yup for schema validation
 import { Button } from '@mui/material';
 import moment from 'moment';
-import { TextField, InputLabel, MenuItem, Select } from '@mui/material'
+import { TextField, InputLabel, MenuItem, Select, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel} from '@mui/material'
 import {DatePicker} from '@mui/x-date-pickers';
 import  TextInput from '../input/TextInput' // Custom TextInput component
 import BasicButton from '../button/BasicButton'; 
 import { initialValues } from '../../tenants/edittenantform';// Custom BasicButton component
+
 
 
 // ReusableForm component definition
@@ -27,11 +28,11 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
       case "date_time":
         return (<DatePicker
           id={field.name} // Uses custom TextInput component for each field
-          name={field.name} // Sets the name for the field
+          name={field.name}
+          type={field.type || 'text'}  // Sets the name for the field
           label={field.label} // Sets the label for the field
-          type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
-          value={moment.utc(props.values[field.name])}  
+          value={moment(props.values[field.name])}
           onChange={props.handleChange}
           onBlur={props.handleBlur}
           error={props.touched[field.name] && Boolean(props.errors[field.name])}
@@ -40,27 +41,44 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
            inputLabel:{
              shrink:true
            },
+           textField:{
+            helperText:'MM/DD/YYYY'
+           }
           }}
           
        /> );
        case "select":
         return(
-          <>
+          <FormControl>
           <InputLabel id={`${field.label}_label_id`}>{field.label}</InputLabel>
           <Select
             labelId={`${field.label}_label_id`}
-            value={props.values[field.name]}  
-            onChange={props.handleChange}
+            value={field.value}
+            onChange={field.handleChange}
             onBlur={props.handleBlur}
             name={field.name}
             error={props.touched[field.name] && Boolean(props.errors[field.name])}
             helperText={props.touched[field.name] && props.errors[field.name]}>
               {field.options.map(option => (
-                <MenuItem id={option} key={option} value={option}>{`${option}`}</MenuItem>
+                <MenuItem  key={`${option}`} value={`${option}`}>{`${option}`}</MenuItem>
               ))}
             </Select>
-            </>
+            </FormControl>
         );
+        case 'check_box':
+          return(
+           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+            <FormLabel component='legend'>{field.label}</FormLabel>
+            <FormGroup>
+            {field.options.map(option => (
+              <FormControlLabel key={`checkbox-${option}`}control={
+              <Checkbox id={field.name} name={field.name} value={`${option}`} /> 
+            } label={`${option}`} 
+            /> 
+            ))}
+            </FormGroup>
+          </FormControl>
+          );
         default: 
         return(               
            <TextField  
@@ -70,7 +88,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
           value={props.values[field.name]}
-          onChange={props.handleChange}
+          onChange={field.onChange}
           onBlur={props.handleBlur}
           variant='filled'
           slotProps={{
@@ -96,11 +114,11 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
    // Destructs errors and touched from Formik's context
    <Formik
      initialValues={initialValues}
-     onSubmit={ () => {}}
+     onSubmit={(values) => handleSubmit(values)} 
      enableReinitialize
      autoComplete>
       { props =>(
-        <Form id='test'  className={className} onSubmit={props.onSubmit}>
+        <Form id='test'  className={className} >
           {fields.map((field) => (
             <div key={field.name} style={{ marginBottom: '16px' }}>
               {fieldFactory(field, props)}
