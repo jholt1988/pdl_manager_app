@@ -1,8 +1,10 @@
+'use client'
+import React,  { useState } from 'react';
+
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 function Ledger() {
-  const tenants = useSelector((state) => state.ledger.tenants);
+  const tenants = useSelector((state) => state.ledgers.tenants);
   const [selectedTenantId, setSelectedTenantId] = useState(Object.keys(tenants)[0]);
 
   const handleTenantChange = (e) => {

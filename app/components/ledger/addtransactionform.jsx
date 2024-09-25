@@ -1,36 +1,48 @@
+'use client'
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction } from '../../../lib/features/ledger/ledgerSlice';
-import { useState } from 'react';
-import ReusableForm from '../basic/form/ReusableForm';
 
-function AddTransactionForm() {
+import ReusableForm from '../basic/form/ReusableForm';
+import { Formik, Form, Field} from 'formik';
+
+function AddTransactionForm(props) {
   const dispatch = useDispatch();
-  const tenants = useSelector((state) => state.ledger.tenants);
+  const tenants = useSelector((state) => state.tenants);
   const [selectedTenantId, setSelectedTenantId] = useState(Object.keys(tenants)[0]);
+  const [description, setDescription] =useState('')
+  const [amount, setAmount] = useState(0)
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+
     const transaction = {
       id: Date.now(),
-      description: e.target.description.value,
-      amount: parseFloat(e.target.amount.value),
+      description:description,
+      amount: parseFloat(amount),
     };
     dispatch(addTransaction({ tenantId: selectedTenantId, transaction }));
   };
 
   return (
-    <ReusableForm onSubmit={handleSubmit}>
-      <select onChange={(e) => setSelectedTenantId(e.target.value)} value={selectedTenantId}>
+    <Formik
+    initialValues={{description:"", amount: "", tenant:""}}
+     onSubmit={handleSubmit}>
+      {props => (
+<Form onSubmit={props.handleSubmit}>
+      <select name='tenant' onChange={(e) => setSelectedTenantId(e.target.value)} value={selectedTenantId}>
         {Object.keys(tenants).map((tenantId) => (
           <option key={tenantId} value={tenantId}>
             {tenantId}
           </option>
         ))}
       </select>
-      <input name="description" placeholder="Description" required />
-      <input name="amount" type="number" placeholder="Amount" required />
+      <Field name="description" placeholder="Description"onChange={(e) => setDescription(e.target.value)} value={description} required />
+      <Field name="amount" type="number" placeholder="Amount" onChange={(e) => setAmount(e.target.value)} value={amount} required />
       <button type="submit">Add Transaction</button>
-    </ReusableForm>
+      </Form>
+      )
+    }
+    </Formik>
   );
 }
 

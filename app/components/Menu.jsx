@@ -8,6 +8,7 @@ import  ApartmentOutlined  from '@mui/icons-material/ApartmentOutlined';
 import  ArticleIconOutlined from '@mui/icons-material/Article';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import HomeRepairServiceOutlinedIcon from '@mui/icons-material/HomeRepairServiceOutlined';
+import PaidIcon from '@mui/icons-material/Paid';
 import styles from '@/app/styles/layout.module.css'
 import { usePathname } from 'next/navigation';
 
@@ -37,15 +38,21 @@ export default function SideMenu (props) {
                     </Link>
                     </MenuItem>
                     <MenuItem key='work_orders'>
-                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/workorders" ? styles.active : ""}`} href='/properties'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/workorders" ? styles.active : ""}`} href='/workorders'>
                     <ListItemIcon><HomeRepairServiceOutlinedIcon /></ListItemIcon>
                     <ListItemText>Repair/Maintenance Work</ListItemText>
                     </Link>
                     </MenuItem>
                     <MenuItem key='expense'>
-                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/expense" ? styles.active : ""}`} href='/properties'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/expense" ? styles.active : ""}`} href='/expense'>
                     <ListItemIcon><AccountBalanceOutlinedIcon /></ListItemIcon>
                     <ListItemText>Expense/Payment</ListItemText>
+                    </Link>
+                    </MenuItem>
+                    <MenuItem key='ledger'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/ledger" ? styles.active : ""}`} href='/ledger'>
+                    <ListItemIcon><PaidIcon /></ListItemIcon>
+                    <ListItemText>Ledger</ListItemText>
                     </Link>
                     </MenuItem>
                     
