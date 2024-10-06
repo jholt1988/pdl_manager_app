@@ -2,28 +2,33 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLease } from "@/lib/features/leases/leaseSlice";
+import moment from "moment";
 import ReusableForm from '../../components/basic/form/ReusableForm'
 import styles from '@/app/components/lease/lease.module.css'
 
+
 export default function AddLeaseForm(){
     const dispatch = useDispatch()
-    const selectTenants = useSelector(state => state.tenants)
-    const selectProperties = useSelector(state => state.properties)
-    const [propertyName, setPropertyName] = useState('')
+    const selectTenants = useSelector(state => state.tenants.tenantsList)
+    const selectProperties = useSelector(state => state.properties.list)
+    const [propertyAddress, setPropertyAddress] = useState('')
     const [property, setProperty] = useState({})
     const [unit, setUnit] = useState()
     const [units, setUnits] = useState()
-    const [tenant, setTenant] = useState('')
-    const [leaseID, setLeaseId] = useState('')
+    const [rentAmount, setRentAmount] = useState("")
+    const [tenantName, setTenantName] = useState('')
+    const  [startDate, setStartDate] = useState(moment(''))
+    const  [endDate, setEndDate] = useState(moment(''))
+    const  [utilities, setUtilities] = useState([])
 
 useEffect(() => {
  setUnits(property.units)
 }, [property])
     const handlePropertyChange = (e) => {
       e.preventDefault()
-        setPropertyName(e.target.value)
-        console.log(propertyName)
-        return setProperty(selectProperties.find(({property_name}) => property_name === e.target.value))
+        setPropertyAddress(e.target.value)
+        console.log(propertyAddress)
+        return setProperty(selectProperties.find(({property_address}) => property_address === e.target.value))
         
     }
     const range = (start, stop, step) =>
@@ -34,35 +39,53 @@ useEffect(() => {
     }
 
     const handleTenantChange =(e) => {
-        setTenant(e.target.value)
+        setTenantName(e.target.value)
     }
 
+    const handleUtilityChange =  (e) => {
+        e.preventDefault()
+        setUtilities(e.target.value, ...utilities)
+    }
 
-    const handleSubmit = (e, values) => {
-        dispatch(addLease(values))
-        setProperty('')
-        setPropertyName('')
-        setTenant('')
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const newLease =  {
+            id: Date.now(), 
+            propertyAddress, 
+            unit, 
+            tenantName, 
+            rentAmount: parseFloat(rentAmount), 
+            utilities,
+            deposit: parseFloat(deposit), 
+            petDeposit: parseFloat(petDeposit), 
+            startDate, 
+            endDate
+        }
+        dispatch(addLease(newLease))
+        setProperty({})
+        setPropertyAddress('')
+        setTenantName('')
         setUnit()
         setUnits()
+        setUtilities([])
+        setDeposit('')
+        setPetDeposit('')
+        setRentAmount('')
+        setStartDate('')
+        setEndDate('')
     }
 
 
 const fields = [
-    {   id:'leaseid',
-        name:'lease_id',
-        value:"",
-        label:'Lease ID',
-        type:'text'
-    },
+    
     {   id:'property_id',
         name:'property_id',
-        value: propertyName, 
+        value: propertyAddress, 
         className:"select", 
         label:'Property',
         type:'text', 
         handleChange: handlePropertyChange,
-        options: selectProperties.map(property => property['property_name'])
+        options: selectProperties.map(property => property['property_address'])
     },
 
     {   id:'unit',
@@ -76,7 +99,7 @@ const fields = [
     },
     {   id:'tenants',
         name:'tenants',
-        value: tenant,
+        value: tenantName,
         className:'select',
         label:'Tenants',
         type:'text',
@@ -85,20 +108,20 @@ const fields = [
     },
     {   id:'total_rent',
         name:'total_rent',
-        value:"",
+        value: rentAmount,
         label:'Lease Total Rent',
         type:'text'
     },
     {   id:'deposit',
         name:'deposit',
-        value:"",
+        value:deposit,
         label:'Deposit',
         type:'text'
     },
     {
         id:'pet_deposit',
         name:'pet_depost',
-        value: " ", 
+        value: petDeposit, 
         label: "Pet Deposit",
         type: 'text'
     }, 
@@ -106,21 +129,24 @@ const fields = [
         id:'lease_start',
         name:'lease_start', 
         className:'date_time',
+        value: startDate, 
         label: "Lease Start",
         type: 'date'
     }, 
     {
         id:'lease_end',
         name:'lease_end',
+        value:endDate, 
         className:'date_time',
         label: "Lease end",
         type: 'date'
     },{
         id:'utilities',
         name:'utilities',
-        value: " ", 
+        value: utilities, 
         className:'check_box',
         label: "Utilties",
+        handleChange:handleUtilityChange,
         type: 'text',
         options:['Trash', 'Water', 'Gas', 'Electric' ]
     }

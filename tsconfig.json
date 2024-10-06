@@ -19,6 +19,6 @@
     "incremental": true,
     "plugins": [{ "name": "next" }]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lease/addlease/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lease/addlease/page.jsx", "app/StoreProvider.jsx", "lib/store.js"],
   "exclude": ["node_modules"]
 }

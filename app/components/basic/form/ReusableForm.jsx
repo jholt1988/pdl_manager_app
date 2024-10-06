@@ -32,7 +32,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           type={field.type || 'text'}  // Sets the name for the field
           label={field.label} // Sets the label for the field
           fullwidth // Makes the input full width
-          value={moment(props.values[field.name])}
+          value={field.value}
           onChange={props.handleChange}
           onBlur={props.handleBlur}
           error={props.touched[field.name] && Boolean(props.errors[field.name])}
@@ -54,7 +54,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           <Select
             labelId={`${field.label}_label_id`}
             value={field.value}
-            onChange={field.handleChange}
+            onChange={field.handleChange ? field.handleChange : props.handleChange}
             onBlur={props.handleBlur}
             name={field.name}
             error={props.touched[field.name] && Boolean(props.errors[field.name])}
@@ -67,7 +67,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
         );
         case 'check_box':
           return(
-           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" onChange={field.handleChange? field.handleChange : props.handleChange}>  
             <FormLabel component='legend'>{field.label}</FormLabel>
             <FormGroup>
             {field.options.map(option => (
@@ -88,7 +88,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
           value={props.values[field.name]}
-          onChange={field.onChange}
+          onChange={field.handleChange? field.handleChange : props.handleChange}
           onBlur={props.handleBlur}
           variant='filled'
           slotProps={{
@@ -105,6 +105,10 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
     }
   }
 
+  function formSubmit(e){
+    e.preventDefault()
+    handleSubmit()
+  }
 
   
     
@@ -114,7 +118,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
    // Destructs errors and touched from Formik's context
    <Formik
      initialValues={initialValues}
-     onSubmit={(values) => handleSubmit(values)} 
+     onSubmit={ (values) => handleSubmit(values)} 
      enableReinitialize
      autoComplete>
       { props =>(

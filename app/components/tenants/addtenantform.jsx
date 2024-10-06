@@ -13,7 +13,7 @@ export default function AddTenantForm (props) {
      const fields = [
         {
         id:"name", 
-        name: 'Name', 
+        name: 'name', 
         type: 'text',
         label:'Name', 
        onChange:  (e) => setName(e.target.value)
@@ -42,9 +42,9 @@ export default function AddTenantForm (props) {
             
           }
 
-    const handleSubmit =  (e) => {
-        e.preventDefault();
-        dispatch(addTenant({name:name, email:email, phone:phone}))
+    const handleSubmit =  (values) => {
+     console.log(name, email, phone)
+        dispatch(addTenant({name:values.name, email:values.email, phone:values.phone}))
        setEmail('')
         setName('')
         setPhone('')
@@ -57,7 +57,7 @@ export default function AddTenantForm (props) {
         <div  className={styles.tenantForm} >  
             
             <h1 >Add New Tenant </h1>
-            <ReusableForm handleSubmit={handleSubmit} className={styles.tenantForm}  initialValues={initalValues} fields={fields}/>
+            <ReusableForm handleSubmit={handleSubmit}  initialValues={initalValues} fields={fields}/>
 
         </div>
     )
