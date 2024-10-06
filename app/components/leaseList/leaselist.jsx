@@ -1,3 +1,4 @@
+'use client'
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchLeases, removeLease} from '../../../lib/features/leases/leaseSlice'
@@ -5,7 +6,7 @@ import ReusableDataGrid from '../basic/datagrid/ReusableDataGrid';
 
 export default function Leaselist (props) {
   const dispatch = useDispatch()
-  const {leases, status, error} = useSelector((state) => state.lease)
+  const {leases, status, error} = useSelector((state) => state.leases)
   const columns = ['Id', "Property", "Unit", "Rent", "Tenant"]
 
   useEffect(() => {

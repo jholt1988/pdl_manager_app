@@ -9,7 +9,7 @@ import styles from '@/app/components/lease/lease.module.css'
 
 export default function AddLeaseForm(){
     const dispatch = useDispatch()
-    const selectTenants = useSelector(state => state.tenants.tenantsList)
+    const selectTenants = useSelector(state => state.tenants.tenantList)
     const selectProperties = useSelector(state => state.properties.list)
     const [propertyAddress, setPropertyAddress] = useState('')
     const [property, setProperty] = useState({})
@@ -20,6 +20,8 @@ export default function AddLeaseForm(){
     const  [startDate, setStartDate] = useState(moment(''))
     const  [endDate, setEndDate] = useState(moment(''))
     const  [utilities, setUtilities] = useState([])
+    const [deposit, setDeposit] = useState()
+    const [petDeposit, setPetDeposit] = useState()
 
 useEffect(() => {
  setUnits(property.units)

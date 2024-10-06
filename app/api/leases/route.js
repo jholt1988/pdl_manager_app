@@ -1,37 +1,57 @@
 // pages/api/leases.js
+import pool from '../../lib/db';
 
-let leases = []; // Mock database for leases
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
     case 'GET':
-      // Return the list of leases
-      res.status(200).json(leases);
+      try {
+        const { rows } = await pool.query(`
+          SELECT l.*, t.name AS tenant_name, p.address AS property_address
+          FROM Leases l
+          JOIN Tenants t ON l.tenant_id = t.id
+          JOIN Properties p ON l.property_id = p.id
+        `);
+        res.status(200).json(rows);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'POST':
-      // Add a new lease
-      const newLease = req.body;
-      leases.push({ ...newLease, id: Date.now() });
-      res.status(201).json(newLease);
+      try {
+        const { tenant_id, property_id, start_date, end_date, rent_amount } = req.body;
+        const query = 'INSERT INTO Leases (tenant_id, property_id, start_date, end_date, rent_amount) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        const values = [tenant_id, property_id, start_date, end_date, rent_amount];
+        const { rows } = await pool.query(query, values);
+        res.status(201).json(rows[0]);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'PUT':
-      // Update an existing lease
-      const updatedLease = req.body;
-      leases = leases.map((lease) =>
-        lease.id === updatedLease.id ? updatedLease : lease
-      );
-      res.status(200).json(updatedLease);
+      try {
+        const { id, tenant_id, property_id, start_date, end_date, rent_amount } = req.body;
+        const query = 'UPDATE Leases SET tenant_id = $1, property_id = $2, start_date = $3, end_date = $4, rent_amount = $5 WHERE id = $6 RETURNING *';
+        const values = [tenant_id, property_id, start_date, end_date, rent_amount, id];
+        const { rows } = await pool.query(query, values);
+        res.status(200).json(rows[0]);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'DELETE':
-      // Delete a lease
-      const { id } = req.body;
-      leases = leases.filter((lease) => lease.id !== id);
-      res.status(204).end();
+      try {
+        const { id } = req.body;
+        const query = 'DELETE FROM Leases WHERE id = $1';
+        await pool.query(query, [id]);
+        res.status(204).end();
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     default:

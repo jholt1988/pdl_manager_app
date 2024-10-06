@@ -1,37 +1,52 @@
-// api/properties/route.js
+// api/properties.js
+import pool from '../../lib/db';
 
-let properties = []; // Mock database for leases
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
     case 'GET':
-      // Return the list of leases
-      res.status(200).json(properties);
+      try {
+        const { rows } = await pool.query('SELECT * FROM Properties');
+        res.status(200).json(rows);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'POST':
-      // Add a new lease
-      const newProperty = req.body;
-      properties.push({ ...newProperty, id: Date.now() });
-      res.status(201).json(newProperty);
+      try {
+        const { address, type, size_sqft, total_units } = req.body;
+        const query = 'INSERT INTO Properties (address, type, size_sqft, total_units) VALUES ($1, $2, $3, $4) RETURNING *';
+        const values = [address, type, size_sqft, total_units];
+        const { rows } = await pool.query(query, values);
+        res.status(201).json(rows[0]);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'PUT':
-      // Update an existing lease
-      const updatedProperty = req.body;
-      properties = properties.map((property) =>
-        property.id === updatedProperty.id ? updatedProperty : lease
-      );
-      res.status(200).json(updatedProperty);
+      try {
+        const { id, address, type, size_sqft, total_units } = req.body;
+        const query = 'UPDATE Properties SET address = $1, type = $2, size_sqft = $3, total_units = $4 WHERE id = $5 RETURNING *';
+        const values = [address, type, size_sqft, total_units, id];
+        const { rows } = await pool.query(query, values);
+        res.status(200).json(rows[0]);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     case 'DELETE':
-      // Delete a lease
-      const { id } = req.body;
-      properties = properties.filter((property) => property.id !== id);
-      res.status(204).end();
+      try {
+        const { id } = req.body;
+        const query = 'DELETE FROM Properties WHERE id = $1';
+        await pool.query(query, [id]);
+        res.status(204).end();
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
       break;
 
     default:

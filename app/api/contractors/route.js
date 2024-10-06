@@ -1,4 +1,4 @@
-// pages/api/expenses.js
+// pages/api/contractors.js
 import pool from '../../lib/db';
 
 export default async function handler(req, res) {
@@ -7,12 +7,8 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        // Fetch all expenses with property details
-        const { rows } = await pool.query(`
-          SELECT e.*, p.address AS property_address
-          FROM Expenses e
-          JOIN Properties p ON e.property_id = p.id
-        `);
+        // Fetch all contractors
+        const { rows } = await pool.query('SELECT * FROM Contractors');
         res.status(200).json(rows);
       } catch (error) {
         res.status(500).json({ message: error.message });
@@ -21,12 +17,12 @@ export default async function handler(req, res) {
 
     case 'POST':
       try {
-        const { property_id, expense_date, description, amount } = req.body;
+        const { name, contact, specialty } = req.body;
         const query = `
-          INSERT INTO Expenses (property_id, expense_date, description, amount)
-          VALUES ($1, $2, $3, $4) RETURNING *
+          INSERT INTO Contractors (name, contact, specialty)
+          VALUES ($1, $2, $3) RETURNING *
         `;
-        const values = [property_id, expense_date, description, amount];
+        const values = [name, contact, specialty];
         const { rows } = await pool.query(query, values);
         res.status(201).json(rows[0]);
       } catch (error) {
@@ -36,13 +32,13 @@ export default async function handler(req, res) {
 
     case 'PUT':
       try {
-        const { id, property_id, expense_date, description, amount } = req.body;
+        const { id, name, contact, specialty } = req.body;
         const query = `
-          UPDATE Expenses
-          SET property_id = $1, expense_date = $2, description = $3, amount = $4
-          WHERE id = $5 RETURNING *
+          UPDATE Contractors
+          SET name = $1, contact = $2, specialty = $3
+          WHERE id = $4 RETURNING *
         `;
-        const values = [property_id, expense_date, description, amount, id];
+        const values = [name, contact, specialty, id];
         const { rows } = await pool.query(query, values);
         res.status(200).json(rows[0]);
       } catch (error) {
@@ -53,7 +49,7 @@ export default async function handler(req, res) {
     case 'DELETE':
       try {
         const { id } = req.body;
-        const query = 'DELETE FROM Expenses WHERE id = $1';
+        const query = 'DELETE FROM Contractors WHERE id = $1';
         await pool.query(query, [id]);
         res.status(204).end();
       } catch (error) {

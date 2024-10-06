@@ -1,5 +1,5 @@
-'use client'
-import React,{useState} from 'react';
+
+import React from 'react';
 import TenantList from '@/app/components/tenants/tenantsList/TenantList';
 import TenantDashboard from '../components/tenants/tenantdashboard';
 import AddTenantForm from '../components/tenants/addtenantform';

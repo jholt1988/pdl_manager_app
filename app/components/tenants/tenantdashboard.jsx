@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
-import TenantInfo from './tenantinfo';
-import { useSelector,useDispatch } from 'react-redux';
+import React from 'react';
 import styles from './tenant.module.css'
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
-import AddTenantForm from '@/app/components/tenants/addtenantform'
-import { findTenant } from '@/lib/features/tenant/tenantSlice';
 
 function TenantDashboard() {
   

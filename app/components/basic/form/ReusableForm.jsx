@@ -3,16 +3,12 @@
 // This component is a reusable form using Formik for form management and validation.
 
 // Import necessary libraries and components
-import React, {useState} from 'react';
-import { Formik, Form, Field, useFormik, withFormik } from 'formik'; // Formik for form state management
-import * as Yup from 'yup'; // Yup for schema validation
+import React from 'react';
+import { Formik, Form } from 'formik'; // Formik for form state management
 import { Button } from '@mui/material';
-import moment from 'moment';
 import { TextField, InputLabel, MenuItem, Select, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel} from '@mui/material'
 import {DatePicker} from '@mui/x-date-pickers';
-import  TextInput from '../input/TextInput' // Custom TextInput component
-import BasicButton from '../button/BasicButton'; 
-import { initialValues } from '../../tenants/edittenantform';// Custom BasicButton component
+import moment from 'moment';
 
 
 
@@ -22,7 +18,8 @@ import { initialValues } from '../../tenants/edittenantform';// Custom BasicButt
 // - validationSchema: Yup schema for form validation
 // - onSubmit: Function to handle form submission
 // - fields: Array of field objects containing information about each form field
-const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
+const ReusableForm = ({className,action, initialValues, fields, handleSubmit, id}) => {
+ 
   const fieldFactory = (field, props) =>{
     switch(field.className) {
       case "date_time":
@@ -32,7 +29,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
           type={field.type || 'text'}  // Sets the name for the field
           label={field.label} // Sets the label for the field
           fullwidth // Makes the input full width
-          value={field.value}
+          value={moment(field.value)}
           onChange={props.handleChange}
           onBlur={props.handleBlur}
           error={props.touched[field.name] && Boolean(props.errors[field.name])}
@@ -105,10 +102,7 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
     }
   }
 
-  function formSubmit(e){
-    e.preventDefault()
-    handleSubmit()
-  }
+
 
   
     
@@ -116,13 +110,15 @@ const ReusableForm = ({className, initialValues, fields, handleSubmit}) => {
   
   return (
    // Destructs errors and touched from Formik's context
+   
    <Formik
-     initialValues={initialValues}
-     onSubmit={ (values) => handleSubmit(values)} 
-     enableReinitialize
-     autoComplete>
+     initialValues={{}}
+     onSubmit={(values) => handleSubmit(values)}
+     autoComplete
+     
+     >
       { props =>(
-        <Form id='test'  className={className} >
+        <Form id={id} action={action} className={className} >
           {fields.map((field) => (
             <div key={field.name} style={{ marginBottom: '16px' }}>
               {fieldFactory(field, props)}

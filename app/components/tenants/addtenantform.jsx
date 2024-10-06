@@ -1,14 +1,16 @@
-import React,{useState} from 'react';
-import {useDispatch} from 'react-redux'
+'use client'
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import ReusableForm from '@/app/components/basic/form/ReusableForm';
 import {addTenant} from '../../../lib/features/tenant/tenantSlice'
 import styles from '@/app/components/tenants/tenant.module.css';
+import { useAddNewTenantMutation } from '@/lib/features/tenant/tenantAPI';
+import moment from 'moment';
 
-export default function AddTenantForm (props) {
-    const dispatch = useDispatch()
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState(" ")
-    const [phone, setPhone] = useState('')
+export default  function AddTenantForm (props) {
+  const dispatch = useDispatch()
+    
+    
 
      const fields = [
         {
@@ -32,22 +34,38 @@ export default function AddTenantForm (props) {
             label: "Phone Number",
             onChange: (e) => setPhone(e.target.value)
         },
-       
+        {
+            id:"dob", 
+            name: 'dob', 
+            value:moment(''),
+            className:'date_time',
+            label: "Date of Birth",
+           
+        },
                 
     ]
           const initalValues = {
-            name:name, 
-            email:email , 
-            phone: phone,
+            name:"", 
+            email:"" , 
+            phone: "",
+            dob:moment(" ")
             
           }
 
-    const handleSubmit =  (values) => {
-     console.log(name, email, phone)
-        dispatch(addTenant({name:values.name, email:values.email, phone:values.phone}))
-       setEmail('')
-        setName('')
-        setPhone('')
+           const [createTenant, isLoading, error] = useAddNewTenantMutation()
+
+    const handleSubmit = async (values) => {
+        const {name, email, phone, dob} = values
+      await  createTenant({name, contact:{email,phone}, dob}).unwrap()
+  
+      dispatch(addTenant({name, contact:{email, phone}, dob}))
+    
+        console.log(values)
+
+       
+        
+        
+       
         
 
     }
@@ -57,7 +75,7 @@ export default function AddTenantForm (props) {
         <div  className={styles.tenantForm} >  
             
             <h1 >Add New Tenant </h1>
-            <ReusableForm handleSubmit={handleSubmit}  initialValues={initalValues} fields={fields}/>
+            <ReusableForm  action={handleSubmit} id={'Add_New_Tenant'}handleSubmit={handleSubmit}  initialValues={initalValues} fields={fields}/>
 
         </div>
     )
