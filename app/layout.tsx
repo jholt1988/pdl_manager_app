@@ -15,10 +15,11 @@ import styles from "./styles/layout.module.css";
 
 export default function RootLayout({ children }) {
   return (
+    <html lang="en">
+    <body>
     <LocalizationProvider dateAdapter={AdapterMoment}>
     <StoreProvider>
-      <html lang="en">
-        <body>
+      
           <section className={styles.container}>
             <Sidedrawer/>
 
@@ -42,9 +43,10 @@ export default function RootLayout({ children }) {
               </span>
             </footer>
           </section>
+          </StoreProvider>
+          </LocalizationProvider>
         </body>
       </html>
-    </StoreProvider>
-</LocalizationProvider>
+  
   );
 }

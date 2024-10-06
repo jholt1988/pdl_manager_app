@@ -1,26 +1,31 @@
 'use client'
-import React from 'react';
+import React,{useEffect} from 'react';
 import {useSelector} from 'react-redux'
+import { fetchProperties } from '@/lib/features/properties/propertiesSlice';
+import { useAppDispatch } from '@/lib/hooks';
 import ReusableDataGrid from '../../basic/datagrid/ReusableDataGrid';
 
 export default function Propertylist (props) {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(fetchProperties())
+    },[])
     const columns = [
-        {field:'property_id' },
-        {field:'property_name'},
+        {field:'id' },
         {field:'address'},
-        {field:'property_type'},
-        {field:'units'},
-        {field:'status'},
-        {field:'square_footage'}
+        {field:'type'},
+        {field:'total_units'},
+        {field:'size_sqft'}
     ]
 
 
 
 
-    const selectProperties = useSelector(state => state.properties)
+    const selectProperties = useSelector(state => state.properties.list)
     const rows = selectProperties
     function getRowID(row){
-        return row['property_id']
+        return row['id']
     }
     return (
         <>

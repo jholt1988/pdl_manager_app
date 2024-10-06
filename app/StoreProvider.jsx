@@ -19,7 +19,9 @@ export const StoreProvider = ({ children }) => {
   const persistor = persistStore(storeRef.current);
 
   useEffect(() => {
+    persistStore(storeRef.current)
     if (storeRef.current != null) {
+      
       // configure listeners using the provided defaults
       // optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors
       const unsubscribe = setupListeners(storeRef.current.dispatch);

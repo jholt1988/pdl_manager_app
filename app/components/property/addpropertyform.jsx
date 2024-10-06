@@ -1,61 +1,72 @@
-import React from 'react';
+'use client'
+import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
+import {addProperty } from '../../../lib/features/properties/propertiesSlice'
 import ReusableForm from '../../components/basic/form/ReusableForm'
 import styles from './property.module.css'
+
 export default function AddPropertyForm (props) {
+    const dispatch = useDispatch()
+    const [address, setAddress] = useState('')
+    const [type, setType] = useState('')
+    const [size_sqft, setSize_Sqft] = useState()
+    const [total_units, setTotal_Units] = useState()
+    
+    const handleSubmit = (values) => {
+        console.log(address)
+        
+        dispatch(addProperty({
+            address:address, 
+            type:type, 
+            size_sqft:size_sqft,
+            total_units:total_units
+        }))
+        // setAddress('')
+        // setType('')
+        // setSize_Sqft()
+        // setTotal_Units()
+    }
+    
+    
     const fields = [
-        {   id:'propertyName',
-            name:'property_name',
-            value:"",
-            label:'Property Name',
-            type:'text'
-        },
-        {   id:'property',
-            name:'property',
-            value:"",
+      
+        {   id:'address',
+            name:'address',
+            value:address,
             label:'Address',
-            type:'text'
+            type:'text',
+            handleChange: e => setAddress(e.target.value)
         },
-        {   id:'square_footage',
-            name:'square_footage',
-            value:"",
+        {   id:'size_sqft',
+            name:'size_sqft',
+            value:size_sqft,
             label:'SqFt',
-            type:'text'
+            type:'text',
+            handleChange: e => setSize_Sqft(e.target.value)
         },
-        {   id:'property_type',
-            name:'property_type',
-            value:"",
+        {   id:'type',
+            name:'type',
+            value:type,
             label:'Property Type',
-            type:'text'
+            type:'text', 
+            handleChange: e => setType(e.target.value)
         },
-        {   id:'units',
-            name:'units',
-            value:"",
+        {   id:'total_units',
+            name:'total_units',
+            value:total_units,
             label:'Units',
-            type:'text'
+            type:'text',
+            handleChange: e => setTotal_Units(e.target.value)
         },
-        {
-            id:'status',
-            name:'status',
-            value: " ", 
-            className:'select',
-            label: "Property Status",
-            options:['Fully Occupied', 'Available', 'Under Maintenance']
-        }
+        
 
     ]
 
-    const initialValues = {
-        property_name: '', 
-        address: '', 
-        property_type: '',
-        square_footage:'', 
-        units: '', 
-        status:  ''
-    }
+   
     return (
         <>
             <div> Addpropertyform - works </div>
-           <ReusableForm  ClassName={styles.propertyForm} fields={fields} initialValues={initialValues} />
+           <ReusableForm  ClassName={styles.propertyForm} handleSubmit={handleSubmit} fields={fields}  />
         </>
     )
 }

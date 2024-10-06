@@ -174,7 +174,7 @@ const initialValues = {
 return (
     <>
         <div> Add New Lease </div>
-       <ReusableForm  ClassName={styles.leaseForm} handleSubmit={handleSubmit} fields={fields} initialValues={initialValues} />
+       <ReusableForm  ClassName={styles.leaseForm} handleSubmit={handleSubmit} fields={fields} />
     </>
 )
 }
