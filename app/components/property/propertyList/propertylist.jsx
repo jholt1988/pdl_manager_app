@@ -1,16 +1,41 @@
 'use client'
-import React,{useEffect} from 'react';
-import {useSelector} from 'react-redux'
+import React,{useEffect, useRef, useState} from 'react';
 import { fetchProperties } from '@/lib/features/properties/propertiesSlice';
-import { useAppDispatch } from '@/lib/hooks';
+import { fetchUnits } from '@/lib/features/units/unitsSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import ReusableDataGrid from '../../basic/datagrid/ReusableDataGrid';
+import Modal from '@/app/components/basic/modal/modal'
+import AddUnitForm from '@/app/components/units/addUnitForm'
 
 export default function Propertylist (props) {
+    const ref= useRef()
     const dispatch = useAppDispatch()
+    const [open, setOpen] = useState(false)
+    const [propertyId, setpropertyId] = useState()
+     
+    const unitFormRef = ref.current
+    const handleOpen = () =>{
+        // dispatch(fetchUnits(id))
+        setOpen(true)
+    }
+
+    const handleClose = () =>{
+        setOpen(false)
+    }
+
+    const handleRowClick = (params) => {
+  const id =  setpropertyId(params.row.id)
+  console.log(id)
+      handleOpen()
+    
+
+    }
 
     useEffect(() => {
+        
         dispatch(fetchProperties())
-    },[])
+        
+    },[fetchProperties])
     const columns = [
         {field:'id' },
         {field:'address'},
@@ -19,17 +44,17 @@ export default function Propertylist (props) {
         {field:'size_sqft'}
     ]
 
+    
+    const selectProperties = useAppSelector((state) => state.properties.list)
 
-
-
-    const selectProperties = useSelector(state => state.properties.list)
     const rows = selectProperties
     function getRowID(row){
-        return row['id']
+        return row["id"]
     }
     return (
         <>
-           <ReusableDataGrid  getRowId={getRowID}columns={columns} rows={rows}/>
+           <ReusableDataGrid onRowClick={handleRowClick}   getRowId={getRowID} columns={columns} rows={rows}/>
+           <Modal open={open} handleClose={handleClose}  children={<AddUnitForm handleOpen={handleOpen} propertyId={propertyId}/>} />
         </>
     )
 }

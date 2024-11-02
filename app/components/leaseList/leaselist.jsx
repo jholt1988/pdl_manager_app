@@ -1,22 +1,27 @@
 'use client'
 import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import {fetchLeases, removeLease} from '../../../lib/features/leases/leaseSlice'
 import ReusableDataGrid from '../basic/datagrid/ReusableDataGrid';
 
 export default function Leaselist (props) {
-  const dispatch = useDispatch()
-  const {leases, status, error} = useSelector((state) => state.leases)
-  const columns = ['Id', "Property", "Unit", "Rent", "Tenant"]
+  const dispatch = useAppDispatch()
+  const {leases, status, error} = useAppSelector((state) => state.leases)
+  const columns = [{field:'id', headerName:'Id'}, {field:"property_address",headerName:'Property' },{ field:"unit", headerName:"Unit"},{field:"rent_amount", headerName:"Rent"}, {field:"tenant_name", headerName:"Tenant"}, {field:"start_date", headerName:'Start Date'}, {field:"end_date", headerName:'End Date'},{field:"utilities", headerName:'Utilites'}, {field:"deposit", headerName:'Deposit'}, {field:"pet_deposit", headerName:"Pet Deposit"}]
 
   useEffect(() => {
-    if(status === 'idle'){
+  
       dispatch(fetchLeases())
-    }
-  }, [status, dispatch])
+    
+  }, [])
 
-  if(status === 'loading') return <p>Loading...</p>
-  if(status === 'failed') return <p>Error:{error}</p>
+  if(status === 'LOADING') return <p>Loading...</p>
+  if(status === 'FAILED') return <p>Error:{error}</p>
+
+ 
+
+
+
   
 
     return (

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
-import SideMenu from '@/app/components/menu';
+import SideMenu from '@/app/components/Menu';
 import { MenuOutlined} from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import styles from '@/app/styles/layout.module.css'

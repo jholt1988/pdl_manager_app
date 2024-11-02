@@ -46,25 +46,32 @@ const ReusableForm = ({className,action, initialValues, fields, handleSubmit, id
        /> );
        case "select":
         return(
-          <FormControl>
+          <FormControl  fullWidth>
           <InputLabel id={`${field.label}_label_id`}>{field.label}</InputLabel>
           <Select
             labelId={`${field.label}_label_id`}
             value={field.value}
+            fullWidth
             onChange={field.handleChange ? field.handleChange : props.handleChange}
             onBlur={props.handleBlur}
+            ref={field.ref}
             name={field.name}
             error={props.touched[field.name] && Boolean(props.errors[field.name])}
             helperText={props.touched[field.name] && props.errors[field.name]}>
-              {field.options.map(option => (
-                <MenuItem  key={`${option}`} value={`${option}`}>{`${option}`}</MenuItem>
-              ))}
+              {field.isId === true? field.options.map(option => (
+                <MenuItem  key={`${option.id}`} value={`${option.id}`}>{`${option.name}`}</MenuItem>
+              )):field.options.map(option => (
+                <MenuItem  key={`${option.id}`} value={`${option.name}`}>{`${option.name}`}</MenuItem>
+              ))
+               }
+          
             </Select>
+           
             </FormControl>
         );
         case 'check_box':
           return(
-           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" onChange={field.handleChange? field.handleChange : props.handleChange}>  
+           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard" onSelect={field.handleOnSelctionChange} onChange={field.handleChange? field.handleChange : props.handleChange}>  
             <FormLabel component='legend'>{field.label}</FormLabel>
             <FormGroup>
             {field.options.map(option => (
@@ -84,7 +91,7 @@ const ReusableForm = ({className,action, initialValues, fields, handleSubmit, id
           label={field.label } // Sets the label for the field
           type={field.type || 'text'} // Sets the type of the field, defaulting to 'text'
           fullwidth // Makes the input full width
-          value={props.values[field.name]}
+          value={field.value}
           onChange={field.handleChange? field.handleChange : props.handleChange}
           onBlur={props.handleBlur}
           variant='filled'
@@ -113,12 +120,12 @@ const ReusableForm = ({className,action, initialValues, fields, handleSubmit, id
    
    <Formik
      initialValues={{}}
-     onSubmit={(values) => handleSubmit(values)}
+     onSubmit={handleSubmit}
      autoComplete
      
      >
       { props =>(
-        <Form id={id} action={action} className={className} >
+        <Form id={id} className={className} >
           {fields.map((field) => (
             <div key={field.name} style={{ marginBottom: '16px' }}>
               {fieldFactory(field, props)}

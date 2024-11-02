@@ -14,7 +14,7 @@ const handleRequest = (handlers) => async (req, res) => {
     export const GET = async (req, res) =>{
       try {
         const { rows } = await pool.query('SELECT * FROM Tenants');
-        return NextResponse.json({rows}, {status:200});
+        return NextResponse.json(rows, {status:200});
       } catch (error) {
       return  NextResponse.error({ message: error.message }, {status:500});
       }

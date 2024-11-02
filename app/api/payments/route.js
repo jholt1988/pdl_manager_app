@@ -1,37 +1,36 @@
 // pages/api/payments.js
-import pool from '../../lib/db';
+import { NextResponse } from 'next/server';
+import pool, {query} from '../../../lib/db/db';
 
-export default async function handler(req, res) {
-  const { method } = req;
-
-  switch (method) {
-    case 'GET':
+ 
+ 
+    export async function GET (req, res){
       try {
-        const { rows } = await pool.query(`
+        const { rows } = await query(`
           SELECT p.*, l.rent_amount, t.name AS tenant_name
-          FROM Payments p
-          JOIN Leases l ON p.lease_id = l.id
-          JOIN Tenants t ON l.tenant_id = t.id
+          FROM payments p
+          JOIN leases l ON p.lease_id = l.id
+          JOIN tenants t ON l.tenant_id = t.id
         `);
-        res.status(200).json(rows);
+       return NextResponse.json(rows, {status:200});
       } catch (error) {
-        res.status(500).json({ message: error.message });
+       return NextResponse.json({message:error.message}, {status:500})
       }
-      break;
+    }
 
-    case 'POST':
+    export async function POST (req, res){
       try {
         const { lease_id, payment_date, amount } = req.body;
-        const query = 'INSERT INTO Payments (lease_id, payment_date, amount) VALUES ($1, $2, $3) RETURNING *';
+        const query = 'INSERT INTO payments (lease_id, payment_date, amount) VALUES ($1, $2, $3) RETURNING *;';
         const values = [lease_id, payment_date, amount];
-        const { rows } = await pool.query(query, values);
-        res.status(201).json(rows[0]);
+        const { rows } = await query(query, values);
+       return   NextResponse.json(rows)
       } catch (error) {
-        res.status(500).json({ message: error.message });
+      return  NextResponse.error({message:error.message }, {status: 500});
       }
-      break;
+    }
 
-    case 'DELETE':
+    export async function DELETE (req, res){
       try {
         const { id } = req.body;
         const query = 'DELETE FROM Payments WHERE id = $1';
@@ -40,10 +39,7 @@ export default async function handler(req, res) {
       } catch (error) {
         res.status(500).json({ message: error.message });
       }
-      break;
+    }
 
-    default:
-      res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
+    
+

@@ -6,6 +6,7 @@ import {addTenant} from '../../../lib/features/tenant/tenantSlice'
 import styles from '@/app/components/tenants/tenant.module.css';
 import { useAddNewTenantMutation } from '@/lib/features/tenant/tenantAPI';
 import moment from 'moment';
+import { validateYupSchema } from 'formik';
 
 export default  function AddTenantForm (props) {
   const dispatch = useDispatch()
@@ -37,7 +38,6 @@ export default  function AddTenantForm (props) {
         {
             id:"dob", 
             name: 'dob', 
-            value:moment(''),
             className:'date_time',
             label: "Date of Birth",
            
@@ -55,8 +55,7 @@ export default  function AddTenantForm (props) {
            const [createTenant, isLoading, error] = useAddNewTenantMutation()
 
     const handleSubmit = async (values) => {
-        const {name, email, phone, dob} = values
-      await  createTenant({name, contact:{email,phone}, dob}).unwrap()
+        const {name, email, phone, dob} = validateYupSchema
   
       dispatch(addTenant({name, contact:{email, phone}, dob}))
     

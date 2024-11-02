@@ -11,6 +11,7 @@ import HomeRepairServiceOutlinedIcon from '@mui/icons-material/HomeRepairService
 import PaidIcon from '@mui/icons-material/Paid';
 import styles from '@/app/styles/layout.module.css'
 import { usePathname } from 'next/navigation';
+import { AddCircleOutline, RemoveCircleOutline} from '@mui/icons-material';
 
 export default function SideMenu (props) {
     
@@ -43,10 +44,16 @@ export default function SideMenu (props) {
                     <ListItemText>Repair/Maintenance Work</ListItemText>
                     </Link>
                     </MenuItem>
+                    <MenuItem key='payment'>
+                    <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/payments" ? styles.active : ""}`} href='/payments'>
+                    <ListItemIcon><AddCircleOutline /></ListItemIcon>
+                    <ListItemText>Payment</ListItemText>
+                    </Link>
+                    </MenuItem>
                     <MenuItem key='expense'>
                     <Link onClick={props.onClose}className={`${styles.link} ${pathname === "/expense" ? styles.active : ""}`} href='/expense'>
-                    <ListItemIcon><AccountBalanceOutlinedIcon /></ListItemIcon>
-                    <ListItemText>Expense/Payment</ListItemText>
+                    <ListItemIcon><RemoveCircleOutline /></ListItemIcon>
+                    <ListItemText>Expense</ListItemText>
                     </Link>
                     </MenuItem>
                     <MenuItem key='ledger'>

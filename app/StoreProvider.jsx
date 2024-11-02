@@ -10,17 +10,16 @@ import { PersistGate } from "redux-persist/integration/react";
 
 
 export const StoreProvider = ({ children }) => {
-  const storeRef = useRef(null);
-
+  const storeRef = useRef();
+  const persistorRef = useRef({})
   if (!storeRef.current) {
     // Create the store instance the first time this renders
     storeRef.current = makeStore();
+    persistorRef.current = persistStore(storeRef.current)
   }
-  const persistor = persistStore(storeRef.current);
 
   useEffect(() => {
-    persistStore(storeRef.current)
-    if (storeRef.current != null) {
+     {
       
       // configure listeners using the provided defaults
       // optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors
@@ -29,5 +28,5 @@ export const StoreProvider = ({ children }) => {
     }
   }, []);
 
-  return <Provider store={storeRef.current}><PersistGate loading={null} persistor={persistor}>
+  return <Provider store={storeRef.current}><PersistGate loading={null} persistor={persistorRef.current}>
 {children}</PersistGate></Provider>}
